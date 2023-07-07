@@ -1,0 +1,135 @@
+﻿<Page x:Class="SchoolProject.Views.Studies"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SchoolProject.Views"
+      xmlns:MD="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Background="White">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="300"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition ></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            
+            
+            >
+            <TextBox 
+                MD:HintAssist.Hint="Name of study"
+                Width="150"
+                HorizontalAlignment="Left"
+                Text="{Binding StudyName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            </TextBox>
+            <Button 
+                Content="+ Add Study"
+                Margin="20,0,0,0"
+                HorizontalAlignment="Left"
+                Background="#141E8C"
+                Foreground="White"
+                Command="{Binding AddStudyCommand}"/>
+        </StackPanel>
+        <StackPanel
+            Orientation="Horizontal"
+            Grid.Row="0"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center"
+            >
+            <TextBox 
+                MD:HintAssist.Hint="Name of series"
+                Width="150"
+                HorizontalAlignment="Left"
+                Text="{Binding SeriesName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            </TextBox>
+            <Button 
+                Content="+ Add Series"
+                Margin="20,0,0,0"
+                Background="#141E8C"
+                Foreground="White"
+                HorizontalAlignment="Left"
+                Command="{Binding AddSeriesCommand}"/>
+        </StackPanel>
+
+        <ListView
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="10"
+            ItemsSource="{Binding StudyList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            
+            >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="" Width="400" DisplayMemberBinding="{Binding Name}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
+                    Orientation="Vertical"
+                    Margin="0,10,0,0"
+                    HorizontalAlignment="Stretch">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Center"
+                   
+>
+                <TextBlock
+                    Text="Select study to add series: "
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Left"/>
+                <ComboBox
+                    Margin="10,0,0,0"
+                    Width="180"
+                    ItemsSource="{Binding StudyList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding SelectedStudy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="Id"
+                  >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChanged}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ComboBox>
+            </StackPanel>
+            <ListView
+                Margin="10"
+                Height="244"
+                ItemsSource="{Binding SeriesList, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectedItem="{Binding SelectedSeries, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="" DisplayMemberBinding="{Binding Name, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"></GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
+        <Button
+            Background="Gray"
+            Content="Add Data"
+            Grid.Row="2"
+            Grid.Column="1"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Right"
+            Margin="0,0,20,0"
+            Command="{Binding ChangeViewCommand}"/>
+
+    </Grid>
+</Page>
